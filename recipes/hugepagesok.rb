@@ -28,7 +28,7 @@ while [ $# -gt 3 ]; do
   shift
 done
 
-if [ $0 = tokumx ]; then
+if [ $1 = tokumx ]; then
   exit 101
 fi
 
