@@ -38,9 +38,13 @@ end
 
 include_recipe 'tokumx::package'
 
-edit_init_script = Chef::Util::FileEdit.new('/etc/init/tokumx.conf')
-edit_init_script.search_file_delete_line('echo never > /sys/kernel/mm/transparent_hugepage/enabled')
-edit_init_script.write_file
+ruby_block 'remove hugepages from init' do
+  block do
+    fe = Chef::Util::FileEdit.new('/etc/init/tokumx.conf')
+    fe.search_file_delete_line('echo never > /sys/kernel/mm/transparent_hugepage/enabled')
+    fe.write_file
+  end
+end
 
 file '/etc/default/tokumx' do
   content 'export TOKU_HUGE_PAGES_OK=1'
